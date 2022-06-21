@@ -32,6 +32,6 @@ runs:
           grep "^$PREFIX_DIR/" | \
           cut -d / -f 2 | \
           sort -u | \
-          sed 's/"/\\"/; s/.*/"&"/' | \
+          sed 's/"/\\"/g; s/.*/"&"/' | \
           paste -d, -s || true)
         echo "::set-output name=modules::[${modules}]"
