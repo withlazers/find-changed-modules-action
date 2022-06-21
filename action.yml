@@ -1,0 +1,39 @@
+name: 'Copy to Repository'
+description: >
+  Finds changed files in this push.
+inputs:
+  prefix_dir:
+    description: The prefix dir where modules can be found
+    required: true
+outputs:
+  modules:
+    description: >
+      JSON formatted array containing the changed modules
+    value: ${{ steps.find_changed_modules.outputs.modules }}
+
+runs:
+  using: "composite"
+  steps:
+  - uses: actions/checkout@v3
+    with:
+      fetch-depth: 1
+  - id: find_changed_modules
+    shell: bash
+    env:
+      PREFIX_DIR: "${{ inputs.prefix_dir }}"
+
+    run: |
+      git fetch origin \
+          "${{ github.event.before }}" \
+          "${{ github.event.after }}"
+      modules=$(git diff --name-status \
+            "${{ github.event.before }}" \
+            "${{ github.event.after }}" | \
+          cut -f 2,3 | \
+          tr "\t" "\n" | \
+          sort -u | \
+          grep "^$PREFIX_DIR/" | \
+          cut -d / -f 2 | \
+          sed 's/"/\\"/; s/.*/"&"/' | \
+          paste -d, -s)
+        echo "::set-output name=modules::[${modules}]"
