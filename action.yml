@@ -33,5 +33,5 @@ runs:
           grep "^$PREFIX_DIR/" | \
           cut -d / -f 2 | \
           sed 's/"/\\"/; s/.*/"&"/' | \
-          paste -d, -s)
+          paste -d, -s || true)
         echo "::set-output name=modules::[${modules}]"
