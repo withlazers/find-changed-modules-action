@@ -29,9 +29,9 @@ runs:
             "${{ github.event.after }}" | \
           cut -f 2,3 | \
           tr "\t" "\n" | \
-          sort -u | \
           grep "^$PREFIX_DIR/" | \
           cut -d / -f 2 | \
+          sort -u | \
           sed 's/"/\\"/; s/.*/"&"/' | \
           paste -d, -s || true)
         echo "::set-output name=modules::[${modules}]"
