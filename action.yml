@@ -20,6 +20,7 @@ runs:
       PREFIX_DIR: "${{ inputs.prefix_dir }}"
 
     run: |
+      set -x
       git fetch origin \
           "${{ github.event.before }}" \
           "${{ github.event.after }}"
