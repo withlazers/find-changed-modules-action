@@ -34,4 +34,4 @@ runs:
           sort -u | \
           sed 's/"/\\"/g; s/.*/"&"/' | \
           paste -d, -s || true)
-        echo "::set-output name=modules::[${modules}]"
+        echo "modules=[${modules}]" >> "$GITHUB_OUTPUT"
