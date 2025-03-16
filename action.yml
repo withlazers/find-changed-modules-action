@@ -24,14 +24,11 @@ runs:
       git fetch origin \
           "${{ github.event.before }}" \
           "${{ github.event.after }}"
-      modules=$(git diff --name-status \
+      modules=$(git diff -C "$PREFIX_DIR" --name-only --relative \
             "${{ github.event.before }}" \
             "${{ github.event.after }}" | \
-          cut -f 2,3 | \
-          tr "\t" "\n" | \
-          grep "^$PREFIX_DIR/" | \
-          cut -d / -f 2 | \
+          cut -d / -f 1 | \
           sort -u | \
           sed 's/"/\\"/g; s/.*/"&"/' | \
           paste -d, -s || true)
-        echo "modules=[${modules}]" >> "$GITHUB_OUTPUT"
+      echo "modules=[${modules}]" >> "$GITHUB_OUTPUT"
