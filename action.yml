@@ -24,7 +24,7 @@ runs:
       git fetch origin \
           "${{ github.event.before }}" \
           "${{ github.event.after }}"
-      modules=$(git diff -C "$PREFIX_DIR" --name-only --relative \
+      modules=$(git -C "$PREFIX_DIR" diff --name-only --relative \
             "${{ github.event.before }}" \
             "${{ github.event.after }}" | \
           cut -d / -f 1 | \
