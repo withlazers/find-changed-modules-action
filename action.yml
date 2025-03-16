@@ -30,7 +30,6 @@ runs:
           cut -f 2,3 | \
           tr "\t" "\n" | \
           grep "^$PREFIX_DIR/" | \
-          cut -d / -f 2 | \
           sort -u | \
           sed 's/"/\\"/g; s/.*/"&"/' | \
           paste -d, -s || true)
